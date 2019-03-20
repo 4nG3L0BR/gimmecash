@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" />
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/IsmaelZanin/cdn@master/style.css" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#example').DataTable();
+	});
+	$(document).ready(function() {
+		$('#credores').DataTable();
+	});
+</script>
+
+
+
+</head>
+<body>
+	 <!-- <div class="content-table" style="width: 80%;">
+		<table id="example" class="table table-striped table-bordered"
+			style="width: 100%; margin-left: 10%;">
+			<thead>
+				<tr>
+					<td>NOME</td>
+					<td>RATING</td>
+					<td>VALOR MAXIMO</td>
+					<td>DATA NASCIMENTO</td>
+					<td>DATA SOLICITACAO</td>
+					<td>OPERAÇÃO</td>
+				</tr>
+			</thead>
+			<tbody th:each="solicitante : ${ listaSolicitante}">
+				<tr>
+					<td th:text="${solicitante.nome}"></td>
+					<td th:text="${solicitante.rating}"></td>
+					<td
+						th:text="${#numbers.formatDecimal(solicitante.printValorMaximoEmprestimo(), 0, 'POINT', 2, 'COMMA')}"></td>
+					<td
+						th:text="${#dates.format(solicitante.dtNascimento, 'dd/MM/yyyy')}"></td>
+					<td
+						th:text="${#dates.format(solicitante.dataSolicitacao, 'dd/MM/yyyy')}"></td>
+					<td>
+						<form action="/">
+							<input type="hidden" name="edit" th:value="${solicitante.id}" />							
+							<button th:if="${edit} != ${solicitante.id}" class="btn btn-primary">SOLICITAR</button>
+						</form>
+						<form action="/" th:object="${solicitante}" th:if="${ edit } eq ${ solicitante.id }" >
+							<input type="number" th:field="*{valorSolicitado}"/>
+							<button class="btn btn-success">AVANÇAR</button>
+						</form>
+						<form action="/">
+							<button th:if="${ edit } eq ${ solicitante.id }"  class="btn btn-danger">CANCELAR</button>
+						</form>
+						
+					</td>
+				</tr>
+				<tr th:if="${ edit } eq ${ solicitante.id }">
+					<td colspan="4">Numero Minimo de Parcelas: </h4><h4 th:text="${solicitante.validaQdeMinParcelas(solicitante)} + 'x de R$' + ${solicitante.validaMaxValorParcela(solicitante)}"></td>
+					<td colspan="2">
+						<span></span>
+					</td>
+				
+				</tr>
+			</tbody>
+		</table>
+
+	</div> --> 
+	
+	<header>
+		<div id="content">
+			<div id="infoDireita">
+				<h3 id="descri">Valor no Caixa: </h3><h3 th:text="${somaSaldo}"></h3>
+				<h3 id="descri">Valor das Solicitações: </h3><h3 th:text="${somaValor}"></h3>
+			</div>
+			<div id="menuEsqueda">
+				<ul>
+					<li><a href="#cliente"><h3>Cliente</h3></a></li>
+					<li><a href="#credores"><h3>Solicitante</h3></a></li>
+					<li><a href="#"><h3>Ação</h3></a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	<section>
+		<div id="logo">
+			<img src="https://cdn.jsdelivr.net/gh/IsmaelZanin/cdn@master/images/Logo.png" id="logoIMG" alt="Logo GimmeCash" />
+			<h4 id="subtitulo">Empréstimo Pessoal</h4>
+			<img src="https://cdn.jsdelivr.net/gh/IsmaelZanin/cdn@master/images/vetor1.png" id="adento1" alt="Pilha de Dinheiro" width="350px" />
+			<img src="https://cdn.jsdelivr.net/gh/IsmaelZanin/cdn@master/images/vetor2.png" id="adento2" alt="Dinheiro" width="350px" />
+		</div>
+	</section>
+	<div style="padding-top: 50px; border-top: 1px solid black;" id="cliente">
+	<div class="content-table" style="width: 80%;">
+
+		<table id="example" class="table table-striped table-bordered"
+			style="width: 100%; margin-left: 10%;">
+			<thead>
+				<tr>
+					<img src="https://cdn.jsdelivr.net/gh/IsmaelZanin/cdn@master/images/clientes.png" width="250px" style="margin-left: 100px" />
+				</tr>
+
+				<!-- <input th:href="@{/filtro}" type="checkbox" name="csv"
+					value="trabalho" checked="true" id="trabalho">Sem
+				solicitação
+				</input>
+				<input type="checkbox" name="emAberto" value="residencia"
+					id="residencia">Solicitação em aberto
+				</input>
+				<input type="checkbox" name="efetuada" value="residencia"
+					id="residencia">Solicitação efetuada
+				</input> -->
+				<tr>
+				
+					<td>REMOVER</td>
+					<td>NOME</td>
+					<td>RATING</td>
+					<td>VALOR MAXIMO</td>
+					<td>DATA EFETIVACAO</td>
+					<td>DATA SOLICITACAO</td>
+					<td>VALOR DESEJADO</td>
+					<td>AVANÇAR</td>
+				</tr>
+			</thead>
+			<tbody>
+				<div th:each="solicitante : ${ listaSolicitante}">
+					<tr>
+					<form action="/input-next-step" method="POST">
+						<td>
+							<center>
+								<a th:href="@{/deleteSolicitante/{id}(id=${solicitante.id})}"
+									type="button" class="btn btn-danger btn-sm">REMOVER</a>
+							</center>
+						</td> <input type="hidden" th:id="${solId}" th:name="solId"
+							th:attr="value = ${solicitante.id}" />
+						<td ith:id="${id}" th:name="id" th:text="${solicitante.nome}"></td>
+						<td th:text="${solicitante.rating}"></td>
+						<td><span
+							th:text="${#numbers.formatDecimal(solicitante.printValorMaximoEmprestimo(), 0, 'POINT', 2, 'COMMA')}"></span></td>
+						<td th:text="${solicitante.nome}"></td>
+						<td
+							th:text="${#dates.format(solicitante.dataSolicitacao, 'yyyy/MM/dd')}"></td>
+
+						<td><center>
+								<input th:id="${valorSolicitadoInput}"
+									th:name="valorSolicitadoInput" type="number" min="300"
+									th:max="${solicitante.printValorMaximoEmprestimo()}"
+									style="width: 100%;" />
+							</center></td>
+						<td>
+							<center>
+								<a type="button" class="btn btn-success">OK</a>
+							</center>
+						</td>
+						<tr>
+						<td colspan="8">
+							<h4>Numero Minimo de Parcelas: </h4><h4 th:text="${solicitante.validaQdeMinParcelas(solicitante)} + 'x de R$' + ${solicitante.validaMaxValorParcela(solicitante)}"></h4>
+							<h4>Numero Máximo de Parcelas: </h4><h4 th:text="${solicitante.validaQtdeMaxParcelas(solicitante)} + 'x de R$' +  ${solicitante.validaMinValorParc(solicitante)}"></h4>
+							<h4 style="float: right; margin-right: 55%; margin-top:-7.5%;">Escolha um numero de parcelas: </h4>
+							
+						 </td>
+
+					</tr>
+					</form>
+
+					</tr>
+					
+				
+				</div>
+				
+
+			</tbody>
+			<tfoot>
+				<tr>
+					<td>REMOVER</td>
+					<td>NOME</td>
+					<td>RATING</td>
+					<td>VALOR MAXIMO</td>
+					<td>DATA EFETIVACAO</td>
+					<td>DATA SOLICITACAO</td>
+					<td>VALOR DESEJADO</td>
+					<td>AVANÇAR</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div> 
+	
+	<div style="margin-top: 100px; margin-bottom: 50px; border-bottom: 1px solid black;" id="credores">
+	</div>	
+
+	
+	<div class="content-table" style="width: 80%;">
+
+		<table id="x" class="table table-striped table-bordered"
+			style="width: 100%; margin-left: 10%;">
+			<thead>
+				<tr>
+					<img src="https://cdn.jsdelivr.net/gh/IsmaelZanin/cdn@master/images/Credores.png" width="250px" style="margin-left: 100px" />
+				</tr>
+				<!-- <input type="checkbox" name="csv" value="trabalho" checked="true"
+					id="trabalho">Sem movimentação
+				</input>
+				<input type="checkbox" name="emAberto" value="residencia"
+					id="residencia">Saldo zero
+				</input>
+				<input type="checkbox" name="efetuada" value="residencia"
+					id="residencia">Saldo disponível
+				</input>
+				<form action="/input-next-step" method="POST"></form> -->
+
+
+
+				<tr>
+				<tr>
+					<td>REMOVER</td>
+					<td>NOME</td>
+					<td>SALDO INICIAL</td>
+					<td>SALDO ATUAL</td>
+					<td>CRÉDITO</td>
+					<td></td>
+				</tr>
+				</tr>
+			</thead>
+			<tbody>
+			
+				<tr th:each="credor : ${ listaCredor}">
+					<form action="/input-next-step-credor" method="POST">
+						<td>
+							<center>
+								<a th:href="@{/deleteCredor/{id}(id=${credor.id})}"
+									type="button" class="btn btn-danger btn-sm">REMOVER</a>
+							</center>
+						</td> <input type="hidden" th:id="${credorId}" th:name="credorId"
+							th:attr="value = ${credor.id}" />
+						<td th:id="${id}" th:name="id" th:text="${credor.nome}"></td>
+						<td th:text="${credor.saldoAtual}"></td>
+						<td th:text="${credor.saldoAtual}"></td>
+						<td><center>
+								<input th:id="${valorSolicitadoInputCredor}"
+									th:name="valorSolicitadoInputCredor" type="number" min="300"
+									th:max="${10000}" style="width: 100%;" />
+							</center></td>
+						<td>
+							<center>
+								<button class="btn btn-success">OK</button>
+							</center>
+
+						</td>
+					</form>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td>REMOVER</td>
+					<td>NOME</td>
+					<td>SALDO INICIAL</td>
+					<td>SALDO ATUAL</td>
+					<td>CRÉDITO</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+
+
+
+	<form action="/input-file" method="post">
+		<button>LER ARQUIVO</button>
+
+	</form>
+</body>
+</html>
